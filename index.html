@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Clip Maker</title>
+<style>
+:root{--bg:#eef0ee;--ink:#17201c;--mute:#5d6862;--line:#cdd3cf;--card:#fff;--acc:#1f5f4a}
+@media(prefers-color-scheme:dark){:root{--bg:#121714;--ink:#e8ede9;--mute:#9aa6a0;--line:#2b3631;--card:#1a211d;--acc:#5fc9a0}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+main{max-width:880px;margin:0 auto;padding:48px 20px}
+h1{font:700 2.2rem/1.1 Georgia,serif;margin:0 0 6px}p.sub{color:var(--mute);margin:0 0 28px}
+form{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px;display:grid;gap:16px}
+label{display:grid;gap:6px;font-weight:600;font-size:.9rem}
+input[type=number],input[type=file],input[type=url],select{padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:flex;gap:14px;flex-wrap:wrap}.row label{flex:1;min-width:120px}
+.chk{display:flex;gap:8px;align-items:center;font-weight:500}.hint{color:var(--mute);font-size:.85rem}
+button{background:var(--acc);color:var(--bg);border:0;border-radius:6px;padding:12px 18px;font:600 1rem system-ui;cursor:pointer}
+button:disabled{opacity:.5}:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+#status{margin:22px 0;color:var(--mute)}#err{color:#c0392b;white-space:pre-wrap}
+#clips{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.clip{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.clip video{width:100%;display:block;background:#000}.clip div{padding:12px;font-size:.85rem;color:var(--mute)}
+.clip a{color:var(--acc);font-weight:600}
+</style>
+<main>
+<h1>Clip Maker</h1><p class="sub">Turns a long video into short captioned clips. Everything runs in your browser, and your video is never uploaded.</p>
+<form id="f">
+<label>Video file<input type="file" id="file" accept="video/*,audio/*"></label>
+<label>Or paste a video link<input type="url" id="url" placeholder="https://www.youtube.com/watch?v="></label>
+<div id="linknote" class="hint"></div>
+<div class="row">
+<label>Clips<input type="number" id="n" value="5" min="1" max="30"></label>
+<label>Min seconds<input type="number" id="min" value="20" min="5"></label>
+<label>Max seconds<input type="number" id="max" value="60" min="10"></label>
+<label>Quality<select id="res"><option value="720">720p (faster)</option><option value="1080">1080p</option></select></label></div>
+<div class="row"><label class="chk"><input type="checkbox" id="vertical" checked>Vertical 9:16</label>
+<label class="chk"><input type="checkbox" id="captions" checked>Burn in captions</label></div>
+<div class="row"><label class="chk"><input type="checkbox" id="ai">Rank clips with Ollama on this computer</label>
+<label>Ollama model<select id="model"></select></label></div>
+<div id="olnote" class="hint"></div>
+<button id="go">Make clips</button></form>
+<div id="status"></div><div id="err"></div><div id="clips"></div>
+</main>
+<script type="module" src="/src/main.js"></script></html>
